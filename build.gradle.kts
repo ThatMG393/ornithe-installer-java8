@@ -85,6 +85,26 @@ tasks.assemble {
 	dependsOn(tasks.shadowJar)
 }
 
+tasks.named("distTar") {
+	dependsOn(tasks.shadowJar)
+}
+
+tasks.named("distZip") {
+	dependsOn(tasks.shadowJar)
+}
+
+distributions {
+	main {
+		contents {
+			from(tasks.shadowJar) {
+				into("lib")
+			}
+			// Exclude the regular jar to avoid duplication
+			exclude("**/${project.name}-${project.version}.jar")
+		}
+	}
+}
+
 val copyForNative = tasks.register<Copy>("copyForNative") {
 	dependsOn(tasks.shadowJar)
 	dependsOn(tasks.jar)
