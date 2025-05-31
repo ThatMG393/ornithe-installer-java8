@@ -8,7 +8,7 @@ plugins {
 
 	id("net.kyori.blossom") version "1.3.1"
 	id("com.diffplug.spotless") version "6.19.0"
-	id("com.github.johnrengelman.shadow") version "8.1.1"
+	id("com.gradleup.shadow") version "9.0.0-beta15"
 }
 
 group = "net.ornithemc"
@@ -59,7 +59,9 @@ java {
 }
 
 application {
-	mainClass.set("org.quiltmc.installer.Main")
+	mainClass = "org.quiltmc.installer.Main"
+
+	applicationDefaultJvmArgs = listOf()
 }
 
 tasks.jar {
@@ -74,35 +76,10 @@ tasks.jar {
 
 tasks.shadowJar {
 	relocate("org.quiltmc.parsers.json", "org.quiltmc.installer.lib.parsers.json")
-//	minimize()
-
-	// Compiler does not know which set method we are targeting with null value
-	val classifier: String? = null;
-	archiveClassifier.set(classifier)
 }
 
 tasks.assemble {
 	dependsOn(tasks.shadowJar)
-}
-
-tasks.named("distTar") {
-	dependsOn(tasks.shadowJar)
-}
-
-tasks.named("distZip") {
-	dependsOn(tasks.shadowJar)
-}
-
-distributions {
-	main {
-		contents {
-			from(tasks.shadowJar) {
-				into("lib")
-			}
-			// Exclude the regular jar to avoid duplication
-			exclude("**/${project.name}-${project.version}.jar")
-		}
-	}
 }
 
 val copyForNative = tasks.register<Copy>("copyForNative") {
