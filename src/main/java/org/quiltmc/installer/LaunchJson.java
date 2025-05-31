@@ -238,16 +238,16 @@ public final class LaunchJson {
 			if (type == LoaderType.QUILT) {
 				// Prevents a log warning about being unable to reach the active user beacon on stable versions.
 				switch (loaderVersion) {
-					case "0.19.2", "0.19.3", "0.19.4" -> {
+					case "0.19.2":
+					case "0.19.3":
+					case "0.19.4":
 						@SuppressWarnings("unchecked")
 						Map<String, List<Object>> arguments = (Map<String,List<Object>>)map.get("arguments");
 						arguments
 								.computeIfAbsent("jvm", (key) -> new ArrayList<>())
 								.add("-Dloader.disable_beacon=true");
-					}
-					default -> {
-						// do nothing
-					}
+					break;
+					default: break; // do nothing
 				}
 			}
 

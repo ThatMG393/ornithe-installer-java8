@@ -49,12 +49,10 @@ blossom {
 	replaceToken("__INSTALLER_VERSION", project.version)
 }
 
-tasks.compileJava {
-    sourceCompatibility = JavaVersion.VERSION_1_8;
-    targetCompatibility = JavaVersion.VERSION_1_8;
-}
-
 java {
+	sourceCompatibility = JavaVersion.VERSION_1_8;
+    targetCompatibility = JavaVersion.VERSION_1_8;
+	
 	toolchain {
 		languageVersion.set(JavaLanguageVersion.of(21))
 	}
